@@ -1,69 +1,49 @@
-# React + TypeScript + Vite
+# Evaluating OpenAPI to typed-clients
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The goal of this project is to evaluate the alternatives for http-client generation with runtime-checking from OpenAPI schemas.
 
-Currently, two official plugins are available:
+The generated clients should be:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- typed (typescript types)
+- runtime checks (zod)
+- bonus: react-query wrapper
 
-## Expanding the ESLint configuration
+## Open questions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- URL or operationId as source of truth
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  - `operationId` can have collisions cross backends, names are not following a standard.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+  ```tsx
+  api.getConversationsV1ConversationsGet();
+  // VS
+  api("GET", "/ai/assistant/v1/conversations");
+  ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Orval: https://orval.dev/overview
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The client-sdk function names are generated from the OpenAPI schema(`operationId`), by converting form `snake_case` to `lowerCamelCase` casing:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+`"operationId": "_get_conversations_v1_conversations_get",`
+👇
+`getConversationsV1ConversationsGet`
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The `operationId` can vary on how the OpenAPI schema is manages (code first or schema first), the backend framework and other factors.
+
+Http-client API level collisions are possible when using the `operationId` as UUID.
+
+### Axios + TypeScript (orval/axios-ts.ts)
+
+`npx orval --input src/http-client/openapi.json --output src/http-client/axios-ts.ts`
+
+### fetch + TypeScript (orval/fetch-ts.ts)
+
+`npx orval --input src/http-client/openapi.json --output src/http-client/fetch-ts.ts --client fetch`
+
+### Zod, only schemas (zod-only-schemas.ts)
+
+`npx orval --input src/http-client/openapi.json --output src/http-client/zod-only-schemas.ts --client zod`
+
+### Axios + runtime-zod
+
+TODO
