@@ -15,14 +15,13 @@ Some useful links:
 /**
  * Order Status
  */
-export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
-
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrderStatus = {
-  placed: 'placed',
-  approved: 'approved',
-  delivered: 'delivered',
+  placed: "placed",
+  approved: "approved",
+  delivered: "delivered",
 } as const;
 
 export interface Order {
@@ -60,14 +59,13 @@ export interface Tag {
 /**
  * pet status in the store
  */
-export type PetStatus = typeof PetStatus[keyof typeof PetStatus];
-
+export type PetStatus = (typeof PetStatus)[keyof typeof PetStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PetStatus = {
-  available: 'available',
-  pending: 'pending',
-  sold: 'sold',
+  available: "available",
+  pending: "pending",
+  sold: "sold",
 } as const;
 
 export interface Pet {
@@ -97,1010 +95,1208 @@ export type PetBody = Pet;
 export type UserArrayBody = User[];
 
 export type FindPetsByStatusParams = {
-/**
- * Status values that need to be considered for filter
- */
-status?: FindPetsByStatusStatus;
+  /**
+   * Status values that need to be considered for filter
+   */
+  status?: FindPetsByStatusStatus;
 };
 
-export type FindPetsByStatusStatus = typeof FindPetsByStatusStatus[keyof typeof FindPetsByStatusStatus];
-
+export type FindPetsByStatusStatus =
+  (typeof FindPetsByStatusStatus)[keyof typeof FindPetsByStatusStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindPetsByStatusStatus = {
-  available: 'available',
-  pending: 'pending',
-  sold: 'sold',
+  available: "available",
+  pending: "pending",
+  sold: "sold",
 } as const;
 
 export type FindPetsByTagsParams = {
-/**
- * Tags to filter by
- */
-tags?: string[];
+  /**
+   * Tags to filter by
+   */
+  tags?: string[];
 };
 
 export type UpdatePetWithFormParams = {
-/**
- * Name of pet that needs to be updated
- */
-name?: string;
-/**
- * Status of pet that needs to be updated
- */
-status?: string;
+  /**
+   * Name of pet that needs to be updated
+   */
+  name?: string;
+  /**
+   * Status of pet that needs to be updated
+   */
+  status?: string;
 };
 
 export type UploadFileParams = {
-/**
- * Additional Metadata
- */
-additionalMetadata?: string;
+  /**
+   * Additional Metadata
+   */
+  additionalMetadata?: string;
 };
 
-export type GetInventory200 = {[key: string]: number};
+export type GetInventory200 = { [key: string]: number };
 
 export type LoginUserParams = {
-/**
- * The user name for login
- */
-username?: string;
-/**
- * The password for login in clear text
- */
-password?: string;
+  /**
+   * The user name for login
+   */
+  username?: string;
+  /**
+   * The password for login in clear text
+   */
+  password?: string;
 };
 
 export type HTTPStatusCode1xx = 100 | 101 | 102 | 103;
 export type HTTPStatusCode2xx = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207;
 export type HTTPStatusCode3xx = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308;
-export type HTTPStatusCode4xx = 400 | 401 | 402 | 403 | 404 | 405 | 406 | 407 | 408 | 409 | 410 | 411 | 412 | 413 | 414 | 415 | 416 | 417 | 418 | 419 | 420 | 421 | 422 | 423 | 424 | 426 | 428 | 429 | 431 | 451;
+export type HTTPStatusCode4xx =
+  | 400
+  | 401
+  | 402
+  | 403
+  | 404
+  | 405
+  | 406
+  | 407
+  | 408
+  | 409
+  | 410
+  | 411
+  | 412
+  | 413
+  | 414
+  | 415
+  | 416
+  | 417
+  | 418
+  | 419
+  | 420
+  | 421
+  | 422
+  | 423
+  | 424
+  | 426
+  | 428
+  | 429
+  | 431
+  | 451;
 export type HTTPStatusCode5xx = 500 | 501 | 502 | 503 | 504 | 505 | 507 | 511;
-export type HTTPStatusCodes = HTTPStatusCode1xx | HTTPStatusCode2xx | HTTPStatusCode3xx | HTTPStatusCode4xx | HTTPStatusCode5xx;
+export type HTTPStatusCodes =
+  | HTTPStatusCode1xx
+  | HTTPStatusCode2xx
+  | HTTPStatusCode3xx
+  | HTTPStatusCode4xx
+  | HTTPStatusCode5xx;
 
 /**
  * Update an existing pet by Id.
  * @summary Update an existing pet.
  */
 export type updatePetResponse200 = {
-  data: Pet
-  status: 200
-}
+  data: Pet;
+  status: 200;
+};
 
 export type updatePetResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type updatePetResponseComposite = updatePetResponse200 | updatePetResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type updatePetResponseComposite =
+  | updatePetResponse200
+  | updatePetResponse400;
+
 export type updatePetResponse = updatePetResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getUpdatePetUrl = () => {
+  return `/pet`;
+};
 
-
-  
-
-  return `/pet`
-}
-
-export const updatePet = async (pet: Pet, options?: RequestInit): Promise<updatePetResponse> => {
-  
-  const res = await fetch(getUpdatePetUrl(),
-  {      
+export const updatePet = async (
+  pet: Pet,
+  options?: RequestInit
+): Promise<updatePetResponse> => {
+  const res = await fetch(getUpdatePetUrl(), {
     ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      pet,)
-  }
-)
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(pet),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: updatePetResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: updatePetResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as updatePetResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as updatePetResponse;
+};
 
 /**
  * Add a new pet to the store.
  * @summary Add a new pet to the store.
  */
 export type addPetResponse200 = {
-  data: Pet
-  status: 200
-}
+  data: Pet;
+  status: 200;
+};
 
 export type addPetResponse400 = {
-  data: void
-  status: 400
-}
-    
+  data: void;
+  status: 400;
+};
+
 export type addPetResponseComposite = addPetResponse200 | addPetResponse400;
-    
+
 export type addPetResponse = addPetResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getAddPetUrl = () => {
+  return `/pet`;
+};
 
-
-  
-
-  return `/pet`
-}
-
-export const addPet = async (pet: Pet, options?: RequestInit): Promise<addPetResponse> => {
-  
-  const res = await fetch(getAddPetUrl(),
-  {      
+export const addPet = async (
+  pet: Pet,
+  options?: RequestInit
+): Promise<addPetResponse> => {
+  const res = await fetch(getAddPetUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      pet,)
-  }
-)
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(pet),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: addPetResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: addPetResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as addPetResponse
-}
-
-
+  return { data, status: res.status, headers: res.headers } as addPetResponse;
+};
 
 /**
  * Multiple status values can be provided with comma separated strings.
  * @summary Finds Pets by status.
  */
 export type findPetsByStatusResponse200 = {
-  data: Pet[]
-  status: 200
-}
+  data: Pet[];
+  status: 200;
+};
 
 export type findPetsByStatusResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type findPetsByStatusResponseComposite = findPetsByStatusResponse200 | findPetsByStatusResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type findPetsByStatusResponseComposite =
+  | findPetsByStatusResponse200
+  | findPetsByStatusResponse400;
+
 export type findPetsByStatusResponse = findPetsByStatusResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getFindPetsByStatusUrl = (params?: FindPetsByStatusParams,) => {
+export const getFindPetsByStatusUrl = (params?: FindPetsByStatusParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     const explodeParameters = ["status"];
 
     if (value instanceof Array && explodeParameters.includes(key)) {
-      value.forEach((v) => normalizedParams.append(key, v === null ? 'null' : v.toString()));
+      value.forEach((v) =>
+        normalizedParams.append(key, v === null ? "null" : v.toString())
+      );
       return;
     }
-      
-    
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/pet/findByStatus?${stringifiedParams}` : `/pet/findByStatus`
-}
+  return stringifiedParams.length > 0
+    ? `/pet/findByStatus?${stringifiedParams}`
+    : `/pet/findByStatus`;
+};
 
-export const findPetsByStatus = async (params?: FindPetsByStatusParams, options?: RequestInit): Promise<findPetsByStatusResponse> => {
-  
-  const res = await fetch(getFindPetsByStatusUrl(params),
-  {      
+export const findPetsByStatus = async (
+  params?: FindPetsByStatusParams,
+  options?: RequestInit
+): Promise<findPetsByStatusResponse> => {
+  const res = await fetch(getFindPetsByStatusUrl(params), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: findPetsByStatusResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: findPetsByStatusResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as findPetsByStatusResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as findPetsByStatusResponse;
+};
 
 /**
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @summary Finds Pets by tags.
  */
 export type findPetsByTagsResponse200 = {
-  data: Pet[]
-  status: 200
-}
+  data: Pet[];
+  status: 200;
+};
 
 export type findPetsByTagsResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type findPetsByTagsResponseComposite = findPetsByTagsResponse200 | findPetsByTagsResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type findPetsByTagsResponseComposite =
+  | findPetsByTagsResponse200
+  | findPetsByTagsResponse400;
+
 export type findPetsByTagsResponse = findPetsByTagsResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getFindPetsByTagsUrl = (params?: FindPetsByTagsParams,) => {
+export const getFindPetsByTagsUrl = (params?: FindPetsByTagsParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     const explodeParameters = ["tags"];
 
     if (value instanceof Array && explodeParameters.includes(key)) {
-      value.forEach((v) => normalizedParams.append(key, v === null ? 'null' : v.toString()));
+      value.forEach((v) =>
+        normalizedParams.append(key, v === null ? "null" : v.toString())
+      );
       return;
     }
-      
-    
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/pet/findByTags?${stringifiedParams}` : `/pet/findByTags`
-}
+  return stringifiedParams.length > 0
+    ? `/pet/findByTags?${stringifiedParams}`
+    : `/pet/findByTags`;
+};
 
-export const findPetsByTags = async (params?: FindPetsByTagsParams, options?: RequestInit): Promise<findPetsByTagsResponse> => {
-  
-  const res = await fetch(getFindPetsByTagsUrl(params),
-  {      
+export const findPetsByTags = async (
+  params?: FindPetsByTagsParams,
+  options?: RequestInit
+): Promise<findPetsByTagsResponse> => {
+  const res = await fetch(getFindPetsByTagsUrl(params), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
+  // return {
+  //   data: [
+  //     {
+  //       id: 30,
+  //       category: {
+  //         id: 1,
+  //         name: "llama",
+  //       },
+  //       name: "oLlama",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 123458521,
+  //       category: {
+  //         id: 0,
+  //         name: "Dogs",
+  //       },
+  //       name: "Milou",
+  //       photoUrls: ["no"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 14,
+  //       category: {
+  //         id: 1,
+  //         name: "Dogs",
+  //       },
+  //       name: "baha",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 11112,
+  //       category: {
+  //         id: 1,
+  //         name: "Dogs",
+  //       },
+  //       name: "doggie2222",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: -1,
+  //       category: {
+  //         id: 1,
+  //         name: "Dogs",
+  //       },
+  //       name: "doggie2222",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 300,
+  //       category: {
+  //         id: 1,
+  //         name: "Dogs",
+  //       },
+  //       name: "doggie bibi",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 200,
+  //       category: {
+  //         id: 1,
+  //         name: "Dogs",
+  //       },
+  //       name: "Test Jacky",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 15,
+  //       category: {
+  //         id: 1,
+  //         name: "Dogs",
+  //       },
+  //       name: "doggie",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 0,
+  //       category: {
+  //         id: 0,
+  //         name: "sdf",
+  //       },
+  //       name: "sdf",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "available",
+  //     },
+  //     {
+  //       id: 1,
+  //       category: {
+  //         id: 0,
+  //         name: "Dogs",
+  //       },
+  //       name: "doggie",
+  //       photoUrls: ["string"],
+  //       tags: [
+  //         {
+  //           id: 0,
+  //           name: "string",
+  //         },
+  //       ],
+  //       status: "pending",
+  //     },
+  //   ] satisfies findPetsByTagsResponse["data"],
+  //   status: 200,
+  //   headers: {},
+  // } as findPetsByTagsResponse;
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: findPetsByTagsResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: findPetsByTagsResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as findPetsByTagsResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as findPetsByTagsResponse;
+};
 
 /**
  * Returns a single pet.
  * @summary Find pet by ID.
  */
 export type getPetByIdResponse200 = {
-  data: Pet
-  status: 200
-}
+  data: Pet;
+  status: 200;
+};
 
 export type getPetByIdResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type getPetByIdResponseComposite = getPetByIdResponse200 | getPetByIdResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type getPetByIdResponseComposite =
+  | getPetByIdResponse200
+  | getPetByIdResponse400;
+
 export type getPetByIdResponse = getPetByIdResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getGetPetByIdUrl = (petId: number,) => {
+export const getGetPetByIdUrl = (petId: number) => {
+  return `/pet/${petId}`;
+};
 
-
-  
-
-  return `/pet/${petId}`
-}
-
-export const getPetById = async (petId: number, options?: RequestInit): Promise<getPetByIdResponse> => {
-  
-  const res = await fetch(getGetPetByIdUrl(petId),
-  {      
+export const getPetById = async (
+  petId: number,
+  options?: RequestInit
+): Promise<getPetByIdResponse> => {
+  const res = await fetch(getGetPetByIdUrl(petId), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: getPetByIdResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getPetByIdResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as getPetByIdResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPetByIdResponse;
+};
 
 /**
  * Updates a pet resource based on the form data.
  * @summary Updates a pet in the store with form data.
  */
 export type updatePetWithFormResponse200 = {
-  data: Pet
-  status: 200
-}
+  data: Pet;
+  status: 200;
+};
 
 export type updatePetWithFormResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type updatePetWithFormResponseComposite = updatePetWithFormResponse200 | updatePetWithFormResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type updatePetWithFormResponseComposite =
+  | updatePetWithFormResponse200
+  | updatePetWithFormResponse400;
+
 export type updatePetWithFormResponse = updatePetWithFormResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getUpdatePetWithFormUrl = (petId: number,
-    params?: UpdatePetWithFormParams,) => {
+export const getUpdatePetWithFormUrl = (
+  petId: number,
+  params?: UpdatePetWithFormParams
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/pet/${petId}?${stringifiedParams}` : `/pet/${petId}`
-}
+  return stringifiedParams.length > 0
+    ? `/pet/${petId}?${stringifiedParams}`
+    : `/pet/${petId}`;
+};
 
-export const updatePetWithForm = async (petId: number,
-    params?: UpdatePetWithFormParams, options?: RequestInit): Promise<updatePetWithFormResponse> => {
-  
-  const res = await fetch(getUpdatePetWithFormUrl(petId,params),
-  {      
+export const updatePetWithForm = async (
+  petId: number,
+  params?: UpdatePetWithFormParams,
+  options?: RequestInit
+): Promise<updatePetWithFormResponse> => {
+  const res = await fetch(getUpdatePetWithFormUrl(petId, params), {
     ...options,
-    method: 'POST'
-    
-    
-  }
-)
+    method: "POST",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: updatePetWithFormResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: updatePetWithFormResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as updatePetWithFormResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as updatePetWithFormResponse;
+};
 
 /**
  * Delete a pet.
  * @summary Deletes a pet.
  */
 export type deletePetResponse200 = {
-  data: void
-  status: 200
-}
+  data: void;
+  status: 200;
+};
 
 export type deletePetResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type deletePetResponseComposite = deletePetResponse200 | deletePetResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type deletePetResponseComposite =
+  | deletePetResponse200
+  | deletePetResponse400;
+
 export type deletePetResponse = deletePetResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getDeletePetUrl = (petId: number,) => {
+export const getDeletePetUrl = (petId: number) => {
+  return `/pet/${petId}`;
+};
 
-
-  
-
-  return `/pet/${petId}`
-}
-
-export const deletePet = async (petId: number, options?: RequestInit): Promise<deletePetResponse> => {
-  
-  const res = await fetch(getDeletePetUrl(petId),
-  {      
+export const deletePet = async (
+  petId: number,
+  options?: RequestInit
+): Promise<deletePetResponse> => {
+  const res = await fetch(getDeletePetUrl(petId), {
     ...options,
-    method: 'DELETE'
-    
-    
-  }
-)
+    method: "DELETE",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: deletePetResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: deletePetResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as deletePetResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as deletePetResponse;
+};
 
 /**
  * Upload image of the pet.
  * @summary Uploads an image.
  */
 export type uploadFileResponse200 = {
-  data: ApiResponse
-  status: 200
-}
+  data: ApiResponse;
+  status: 200;
+};
 
 export type uploadFileResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type uploadFileResponseComposite = uploadFileResponse200 | uploadFileResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type uploadFileResponseComposite =
+  | uploadFileResponse200
+  | uploadFileResponse400;
+
 export type uploadFileResponse = uploadFileResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getUploadFileUrl = (petId: number,
-    params?: UploadFileParams,) => {
+export const getUploadFileUrl = (petId: number, params?: UploadFileParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/pet/${petId}/uploadImage?${stringifiedParams}` : `/pet/${petId}/uploadImage`
-}
+  return stringifiedParams.length > 0
+    ? `/pet/${petId}/uploadImage?${stringifiedParams}`
+    : `/pet/${petId}/uploadImage`;
+};
 
-export const uploadFile = async (petId: number,
-    uploadFileBody: Blob,
-    params?: UploadFileParams, options?: RequestInit): Promise<uploadFileResponse> => {
-  
-  const res = await fetch(getUploadFileUrl(petId,params),
-  {      
+export const uploadFile = async (
+  petId: number,
+  uploadFileBody: Blob,
+  params?: UploadFileParams,
+  options?: RequestInit
+): Promise<uploadFileResponse> => {
+  const res = await fetch(getUploadFileUrl(petId, params), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/octet-stream', ...options?.headers },
-    body: JSON.stringify(
-      uploadFileBody,)
-  }
-)
+    method: "POST",
+    headers: {
+      "Content-Type": "application/octet-stream",
+      ...options?.headers,
+    },
+    body: JSON.stringify(uploadFileBody),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: uploadFileResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: uploadFileResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as uploadFileResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as uploadFileResponse;
+};
 
 /**
  * Returns a map of status codes to quantities.
  * @summary Returns pet inventories by status.
  */
 export type getInventoryResponse200 = {
-  data: GetInventory200
-  status: 200
-}
+  data: GetInventory200;
+  status: 200;
+};
 
 export type getInventoryResponseDefault = {
-  data: void
-  status: Exclude<HTTPStatusCodes, 200>
-}
-    
-export type getInventoryResponseComposite = getInventoryResponse200 | getInventoryResponseDefault;
-    
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type getInventoryResponseComposite =
+  | getInventoryResponse200
+  | getInventoryResponseDefault;
+
 export type getInventoryResponse = getInventoryResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getGetInventoryUrl = () => {
+  return `/store/inventory`;
+};
 
-
-  
-
-  return `/store/inventory`
-}
-
-export const getInventory = async ( options?: RequestInit): Promise<getInventoryResponse> => {
-  
-  const res = await fetch(getGetInventoryUrl(),
-  {      
+export const getInventory = async (
+  options?: RequestInit
+): Promise<getInventoryResponse> => {
+  const res = await fetch(getGetInventoryUrl(), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: getInventoryResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getInventoryResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as getInventoryResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getInventoryResponse;
+};
 
 /**
  * Place a new order in the store.
  * @summary Place an order for a pet.
  */
 export type placeOrderResponse200 = {
-  data: Order
-  status: 200
-}
+  data: Order;
+  status: 200;
+};
 
 export type placeOrderResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type placeOrderResponseComposite = placeOrderResponse200 | placeOrderResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type placeOrderResponseComposite =
+  | placeOrderResponse200
+  | placeOrderResponse400;
+
 export type placeOrderResponse = placeOrderResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getPlaceOrderUrl = () => {
+  return `/store/order`;
+};
 
-
-  
-
-  return `/store/order`
-}
-
-export const placeOrder = async (order: Order, options?: RequestInit): Promise<placeOrderResponse> => {
-  
-  const res = await fetch(getPlaceOrderUrl(),
-  {      
+export const placeOrder = async (
+  order: Order,
+  options?: RequestInit
+): Promise<placeOrderResponse> => {
+  const res = await fetch(getPlaceOrderUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      order,)
-  }
-)
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(order),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: placeOrderResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: placeOrderResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as placeOrderResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as placeOrderResponse;
+};
 
 /**
  * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
  * @summary Find purchase order by ID.
  */
 export type getOrderByIdResponse200 = {
-  data: Order
-  status: 200
-}
+  data: Order;
+  status: 200;
+};
 
 export type getOrderByIdResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type getOrderByIdResponseComposite = getOrderByIdResponse200 | getOrderByIdResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type getOrderByIdResponseComposite =
+  | getOrderByIdResponse200
+  | getOrderByIdResponse400;
+
 export type getOrderByIdResponse = getOrderByIdResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getGetOrderByIdUrl = (orderId: number,) => {
+export const getGetOrderByIdUrl = (orderId: number) => {
+  return `/store/order/${orderId}`;
+};
 
-
-  
-
-  return `/store/order/${orderId}`
-}
-
-export const getOrderById = async (orderId: number, options?: RequestInit): Promise<getOrderByIdResponse> => {
-  
-  const res = await fetch(getGetOrderByIdUrl(orderId),
-  {      
+export const getOrderById = async (
+  orderId: number,
+  options?: RequestInit
+): Promise<getOrderByIdResponse> => {
+  const res = await fetch(getGetOrderByIdUrl(orderId), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: getOrderByIdResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getOrderByIdResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as getOrderByIdResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getOrderByIdResponse;
+};
 
 /**
  * For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors.
  * @summary Delete purchase order by identifier.
  */
 export type deleteOrderResponse200 = {
-  data: void
-  status: 200
-}
+  data: void;
+  status: 200;
+};
 
 export type deleteOrderResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type deleteOrderResponseComposite = deleteOrderResponse200 | deleteOrderResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type deleteOrderResponseComposite =
+  | deleteOrderResponse200
+  | deleteOrderResponse400;
+
 export type deleteOrderResponse = deleteOrderResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getDeleteOrderUrl = (orderId: number,) => {
+export const getDeleteOrderUrl = (orderId: number) => {
+  return `/store/order/${orderId}`;
+};
 
-
-  
-
-  return `/store/order/${orderId}`
-}
-
-export const deleteOrder = async (orderId: number, options?: RequestInit): Promise<deleteOrderResponse> => {
-  
-  const res = await fetch(getDeleteOrderUrl(orderId),
-  {      
+export const deleteOrder = async (
+  orderId: number,
+  options?: RequestInit
+): Promise<deleteOrderResponse> => {
+  const res = await fetch(getDeleteOrderUrl(orderId), {
     ...options,
-    method: 'DELETE'
-    
-    
-  }
-)
+    method: "DELETE",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: deleteOrderResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: deleteOrderResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as deleteOrderResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as deleteOrderResponse;
+};
 
 /**
  * This can only be done by the logged in user.
  * @summary Create user.
  */
 export type createUserResponse200 = {
-  data: User
-  status: 200
-}
+  data: User;
+  status: 200;
+};
 
 export type createUserResponseDefault = {
-  data: void
-  status: Exclude<HTTPStatusCodes, 200>
-}
-    
-export type createUserResponseComposite = createUserResponse200 | createUserResponseDefault;
-    
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type createUserResponseComposite =
+  | createUserResponse200
+  | createUserResponseDefault;
+
 export type createUserResponse = createUserResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getCreateUserUrl = () => {
+  return `/user`;
+};
 
-
-  
-
-  return `/user`
-}
-
-export const createUser = async (user: User, options?: RequestInit): Promise<createUserResponse> => {
-  
-  const res = await fetch(getCreateUserUrl(),
-  {      
+export const createUser = async (
+  user: User,
+  options?: RequestInit
+): Promise<createUserResponse> => {
+  const res = await fetch(getCreateUserUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      user,)
-  }
-)
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(user),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: createUserResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: createUserResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as createUserResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as createUserResponse;
+};
 
 /**
  * Creates list of users with given input array.
  * @summary Creates list of users with given input array.
  */
 export type createUsersWithListInputResponse200 = {
-  data: User
-  status: 200
-}
+  data: User;
+  status: 200;
+};
 
 export type createUsersWithListInputResponseDefault = {
-  data: void
-  status: Exclude<HTTPStatusCodes, 200>
-}
-    
-export type createUsersWithListInputResponseComposite = createUsersWithListInputResponse200 | createUsersWithListInputResponseDefault;
-    
-export type createUsersWithListInputResponse = createUsersWithListInputResponseComposite & {
-  headers: Headers;
-}
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type createUsersWithListInputResponseComposite =
+  | createUsersWithListInputResponse200
+  | createUsersWithListInputResponseDefault;
+
+export type createUsersWithListInputResponse =
+  createUsersWithListInputResponseComposite & {
+    headers: Headers;
+  };
 
 export const getCreateUsersWithListInputUrl = () => {
+  return `/user/createWithList`;
+};
 
-
-  
-
-  return `/user/createWithList`
-}
-
-export const createUsersWithListInput = async (user: User[], options?: RequestInit): Promise<createUsersWithListInputResponse> => {
-  
-  const res = await fetch(getCreateUsersWithListInputUrl(),
-  {      
+export const createUsersWithListInput = async (
+  user: User[],
+  options?: RequestInit
+): Promise<createUsersWithListInputResponse> => {
+  const res = await fetch(getCreateUsersWithListInputUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      user,)
-  }
-)
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(user),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: createUsersWithListInputResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: createUsersWithListInputResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
 
-  return { data, status: res.status, headers: res.headers } as createUsersWithListInputResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as createUsersWithListInputResponse;
+};
 
 /**
  * Log into the system.
  * @summary Logs user into the system.
  */
 export type loginUserResponse200 = {
-  data: string
-  status: 200
-}
+  data: string;
+  status: 200;
+};
 
 export type loginUserResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type loginUserResponseComposite = loginUserResponse200 | loginUserResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type loginUserResponseComposite =
+  | loginUserResponse200
+  | loginUserResponse400;
+
 export type loginUserResponse = loginUserResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getLoginUserUrl = (params?: LoginUserParams,) => {
+export const getLoginUserUrl = (params?: LoginUserParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/user/login?${stringifiedParams}` : `/user/login`
-}
+  return stringifiedParams.length > 0
+    ? `/user/login?${stringifiedParams}`
+    : `/user/login`;
+};
 
-export const loginUser = async (params?: LoginUserParams, options?: RequestInit): Promise<loginUserResponse> => {
-  
-  const res = await fetch(getLoginUserUrl(params),
-  {      
+export const loginUser = async (
+  params?: LoginUserParams,
+  options?: RequestInit
+): Promise<loginUserResponse> => {
+  const res = await fetch(getLoginUserUrl(params), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: loginUserResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: loginUserResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as loginUserResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as loginUserResponse;
+};
 
 /**
  * Log user out of the system.
  * @summary Logs out current logged in user session.
  */
 export type logoutUserResponse200 = {
-  data: void
-  status: 200
-}
+  data: void;
+  status: 200;
+};
 
 export type logoutUserResponseDefault = {
-  data: void
-  status: Exclude<HTTPStatusCodes, 200>
-}
-    
-export type logoutUserResponseComposite = logoutUserResponse200 | logoutUserResponseDefault;
-    
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type logoutUserResponseComposite =
+  | logoutUserResponse200
+  | logoutUserResponseDefault;
+
 export type logoutUserResponse = logoutUserResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getLogoutUserUrl = () => {
+  return `/user/logout`;
+};
 
-
-  
-
-  return `/user/logout`
-}
-
-export const logoutUser = async ( options?: RequestInit): Promise<logoutUserResponse> => {
-  
-  const res = await fetch(getLogoutUserUrl(),
-  {      
+export const logoutUser = async (
+  options?: RequestInit
+): Promise<logoutUserResponse> => {
+  const res = await fetch(getLogoutUserUrl(), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: logoutUserResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: logoutUserResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as logoutUserResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as logoutUserResponse;
+};
 
 /**
  * Get user detail based on username.
  * @summary Get user by user name.
  */
 export type getUserByNameResponse200 = {
-  data: User
-  status: 200
-}
+  data: User;
+  status: 200;
+};
 
 export type getUserByNameResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type getUserByNameResponseComposite = getUserByNameResponse200 | getUserByNameResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type getUserByNameResponseComposite =
+  | getUserByNameResponse200
+  | getUserByNameResponse400;
+
 export type getUserByNameResponse = getUserByNameResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getGetUserByNameUrl = (username: string,) => {
+export const getGetUserByNameUrl = (username: string) => {
+  return `/user/${username}`;
+};
 
-
-  
-
-  return `/user/${username}`
-}
-
-export const getUserByName = async (username: string, options?: RequestInit): Promise<getUserByNameResponse> => {
-  
-  const res = await fetch(getGetUserByNameUrl(username),
-  {      
+export const getUserByName = async (
+  username: string,
+  options?: RequestInit
+): Promise<getUserByNameResponse> => {
+  const res = await fetch(getGetUserByNameUrl(username), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    method: "GET",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: getUserByNameResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getUserByNameResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as getUserByNameResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getUserByNameResponse;
+};
 
 /**
  * This can only be done by the logged in user.
  * @summary Update user resource.
  */
 export type updateUserResponse200 = {
-  data: void
-  status: 200
-}
+  data: void;
+  status: 200;
+};
 
 export type updateUserResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type updateUserResponseComposite = updateUserResponse200 | updateUserResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type updateUserResponseComposite =
+  | updateUserResponse200
+  | updateUserResponse400;
+
 export type updateUserResponse = updateUserResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getUpdateUserUrl = (username: string,) => {
+export const getUpdateUserUrl = (username: string) => {
+  return `/user/${username}`;
+};
 
-
-  
-
-  return `/user/${username}`
-}
-
-export const updateUser = async (username: string,
-    user: User, options?: RequestInit): Promise<updateUserResponse> => {
-  
-  const res = await fetch(getUpdateUserUrl(username),
-  {      
+export const updateUser = async (
+  username: string,
+  user: User,
+  options?: RequestInit
+): Promise<updateUserResponse> => {
+  const res = await fetch(getUpdateUserUrl(username), {
     ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      user,)
-  }
-)
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(user),
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: updateUserResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: updateUserResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as updateUserResponse
-}
-
-
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as updateUserResponse;
+};
 
 /**
  * This can only be done by the logged in user.
  * @summary Delete user resource.
  */
 export type deleteUserResponse200 = {
-  data: void
-  status: 200
-}
+  data: void;
+  status: 200;
+};
 
 export type deleteUserResponse400 = {
-  data: void
-  status: 400
-}
-    
-export type deleteUserResponseComposite = deleteUserResponse200 | deleteUserResponse400;
-    
+  data: void;
+  status: 400;
+};
+
+export type deleteUserResponseComposite =
+  | deleteUserResponse200
+  | deleteUserResponse400;
+
 export type deleteUserResponse = deleteUserResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getDeleteUserUrl = (username: string,) => {
+export const getDeleteUserUrl = (username: string) => {
+  return `/user/${username}`;
+};
 
-
-  
-
-  return `/user/${username}`
-}
-
-export const deleteUser = async (username: string, options?: RequestInit): Promise<deleteUserResponse> => {
-  
-  const res = await fetch(getDeleteUserUrl(username),
-  {      
+export const deleteUser = async (
+  username: string,
+  options?: RequestInit
+): Promise<deleteUserResponse> => {
+  const res = await fetch(getDeleteUserUrl(username), {
     ...options,
-    method: 'DELETE'
-    
-    
-  }
-)
+    method: "DELETE",
+  });
 
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: deleteUserResponse['data'] = body ? JSON.parse(body) : {}
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: deleteUserResponse["data"] = body ? JSON.parse(body) : {};
 
-  return { data, status: res.status, headers: res.headers } as deleteUserResponse
-}
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as deleteUserResponse;
+};
