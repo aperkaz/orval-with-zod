@@ -12,23 +12,19 @@ Some useful links:
 - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
  * OpenAPI spec version: 1.0.26
  */
-import * as axios from 'axios';
-import type {
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios';
+import * as axios from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 
 /**
  * Order Status
  */
-export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
-
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrderStatus = {
-  placed: 'placed',
-  approved: 'approved',
-  delivered: 'delivered',
+  placed: "placed",
+  approved: "approved",
+  delivered: "delivered",
 } as const;
 
 export interface Order {
@@ -66,14 +62,13 @@ export interface Tag {
 /**
  * pet status in the store
  */
-export type PetStatus = typeof PetStatus[keyof typeof PetStatus];
-
+export type PetStatus = (typeof PetStatus)[keyof typeof PetStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PetStatus = {
-  available: 'available',
-  pending: 'pending',
-  sold: 'sold',
+  available: "available",
+  pending: "pending",
+  sold: "sold",
 } as const;
 
 export interface Pet {
@@ -103,58 +98,58 @@ export type PetBody = Pet;
 export type UserArrayBody = User[];
 
 export type FindPetsByStatusParams = {
-/**
- * Status values that need to be considered for filter
- */
-status?: FindPetsByStatusStatus;
+  /**
+   * Status values that need to be considered for filter
+   */
+  status?: FindPetsByStatusStatus;
 };
 
-export type FindPetsByStatusStatus = typeof FindPetsByStatusStatus[keyof typeof FindPetsByStatusStatus];
-
+export type FindPetsByStatusStatus =
+  (typeof FindPetsByStatusStatus)[keyof typeof FindPetsByStatusStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FindPetsByStatusStatus = {
-  available: 'available',
-  pending: 'pending',
-  sold: 'sold',
+  available: "available",
+  pending: "pending",
+  sold: "sold",
 } as const;
 
 export type FindPetsByTagsParams = {
-/**
- * Tags to filter by
- */
-tags?: string[];
+  /**
+   * Tags to filter by
+   */
+  tags?: string[];
 };
 
 export type UpdatePetWithFormParams = {
-/**
- * Name of pet that needs to be updated
- */
-name?: string;
-/**
- * Status of pet that needs to be updated
- */
-status?: string;
+  /**
+   * Name of pet that needs to be updated
+   */
+  name?: string;
+  /**
+   * Status of pet that needs to be updated
+   */
+  status?: string;
 };
 
 export type UploadFileParams = {
-/**
- * Additional Metadata
- */
-additionalMetadata?: string;
+  /**
+   * Additional Metadata
+   */
+  additionalMetadata?: string;
 };
 
-export type GetInventory200 = {[key: string]: number};
+export type GetInventory200 = { [key: string]: number };
 
 export type LoginUserParams = {
-/**
- * The user name for login
- */
-username?: string;
-/**
- * The password for login in clear text
- */
-password?: string;
+  /**
+   * The user name for login
+   */
+  username?: string;
+  /**
+   * The password for login in clear text
+   */
+  password?: string;
 };
 
 /**
@@ -162,266 +157,243 @@ password?: string;
  * @summary Update an existing pet.
  */
 export const updatePet = <TData = AxiosResponse<Pet>>(
-    pet: Pet, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.put(
-      `/pet`,
-      pet,options
-    );
-  }
+  pet: Pet,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.put(`/pet`, pet, options);
+};
 
 /**
  * Add a new pet to the store.
  * @summary Add a new pet to the store.
  */
 export const addPet = <TData = AxiosResponse<Pet>>(
-    pet: Pet, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.post(
-      `/pet`,
-      pet,options
-    );
-  }
+  pet: Pet,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.post(`/pet`, pet, options);
+};
 
 /**
  * Multiple status values can be provided with comma separated strings.
  * @summary Finds Pets by status.
  */
 export const findPetsByStatus = <TData = AxiosResponse<Pet[]>>(
-    params?: FindPetsByStatusParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/pet/findByStatus`,{
+  params?: FindPetsByStatusParams,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/pet/findByStatus`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params: { ...params, ...options?.params },
+  });
+};
 
 /**
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @summary Finds Pets by tags.
  */
 export const findPetsByTags = <TData = AxiosResponse<Pet[]>>(
-    params?: FindPetsByTagsParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/pet/findByTags`,{
+  params?: FindPetsByTagsParams,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/pet/findByTags`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params: { ...params, ...options?.params },
+  });
+};
 
 /**
  * Returns a single pet.
  * @summary Find pet by ID.
  */
 export const getPetById = <TData = AxiosResponse<Pet>>(
-    petId: number, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/pet/${petId}`,options
-    );
-  }
+  petId: number,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/pet/${petId}`, options);
+};
 
 /**
  * Updates a pet resource based on the form data.
  * @summary Updates a pet in the store with form data.
  */
 export const updatePetWithForm = <TData = AxiosResponse<Pet>>(
-    petId: number,
-    params?: UpdatePetWithFormParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.post(
-      `/pet/${petId}`,undefined,{
+  petId: number,
+  params?: UpdatePetWithFormParams,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.post(`/pet/${petId}`, undefined, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params: { ...params, ...options?.params },
+  });
+};
 
 /**
  * Delete a pet.
  * @summary Deletes a pet.
  */
 export const deletePet = <TData = AxiosResponse<void>>(
-    petId: number, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.delete(
-      `/pet/${petId}`,options
-    );
-  }
+  petId: number,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.delete(`/pet/${petId}`, options);
+};
 
 /**
  * Upload image of the pet.
  * @summary Uploads an image.
  */
 export const uploadFile = <TData = AxiosResponse<ApiResponse>>(
-    petId: number,
-    uploadFileBody: Blob,
-    params?: UploadFileParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.post(
-      `/pet/${petId}/uploadImage`,
-      uploadFileBody,{
+  petId: number,
+  uploadFileBody: Blob,
+  params?: UploadFileParams,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.post(`/pet/${petId}/uploadImage`, uploadFileBody, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params: { ...params, ...options?.params },
+  });
+};
 
 /**
  * Returns a map of status codes to quantities.
  * @summary Returns pet inventories by status.
  */
 export const getInventory = <TData = AxiosResponse<GetInventory200>>(
-     options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/store/inventory`,options
-    );
-  }
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/store/inventory`, options);
+};
 
 /**
  * Place a new order in the store.
  * @summary Place an order for a pet.
  */
 export const placeOrder = <TData = AxiosResponse<Order>>(
-    order: Order, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.post(
-      `/store/order`,
-      order,options
-    );
-  }
+  order: Order,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.post(`/store/order`, order, options);
+};
 
 /**
  * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
  * @summary Find purchase order by ID.
  */
 export const getOrderById = <TData = AxiosResponse<Order>>(
-    orderId: number, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/store/order/${orderId}`,options
-    );
-  }
+  orderId: number,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/store/order/${orderId}`, options);
+};
 
 /**
  * For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors.
  * @summary Delete purchase order by identifier.
  */
 export const deleteOrder = <TData = AxiosResponse<void>>(
-    orderId: number, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.delete(
-      `/store/order/${orderId}`,options
-    );
-  }
+  orderId: number,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.delete(`/store/order/${orderId}`, options);
+};
 
 /**
  * This can only be done by the logged in user.
  * @summary Create user.
  */
 export const createUser = <TData = AxiosResponse<User>>(
-    user: User, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.post(
-      `/user`,
-      user,options
-    );
-  }
+  user: User,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.post(`/user`, user, options);
+};
 
 /**
  * Creates list of users with given input array.
  * @summary Creates list of users with given input array.
  */
 export const createUsersWithListInput = <TData = AxiosResponse<User>>(
-    user: User[], options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.post(
-      `/user/createWithList`,
-      user,options
-    );
-  }
+  user: User[],
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.post(`/user/createWithList`, user, options);
+};
 
 /**
  * Log into the system.
  * @summary Logs user into the system.
  */
 export const loginUser = <TData = AxiosResponse<string>>(
-    params?: LoginUserParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/user/login`,{
+  params?: LoginUserParams,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/user/login`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params: { ...params, ...options?.params },
+  });
+};
 
 /**
  * Log user out of the system.
  * @summary Logs out current logged in user session.
  */
 export const logoutUser = <TData = AxiosResponse<void>>(
-     options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/user/logout`,options
-    );
-  }
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/user/logout`, options);
+};
 
 /**
  * Get user detail based on username.
  * @summary Get user by user name.
  */
 export const getUserByName = <TData = AxiosResponse<User>>(
-    username: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.get(
-      `/user/${username}`,options
-    );
-  }
+  username: string,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.get(`/user/${username}`, options);
+};
 
 /**
  * This can only be done by the logged in user.
  * @summary Update user resource.
  */
 export const updateUser = <TData = AxiosResponse<void>>(
-    username: string,
-    user: User, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.put(
-      `/user/${username}`,
-      user,options
-    );
-  }
+  username: string,
+  user: User,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.put(`/user/${username}`, user, options);
+};
 
 /**
  * This can only be done by the logged in user.
  * @summary Delete user resource.
  */
 export const deleteUser = <TData = AxiosResponse<void>>(
-    username: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.default.delete(
-      `/user/${username}`,options
-    );
-  }
+  username: string,
+  options?: AxiosRequestConfig
+): Promise<TData> => {
+  return axios.default.delete(`/user/${username}`, options);
+};
 
-export type UpdatePetResult = AxiosResponse<Pet>
-export type AddPetResult = AxiosResponse<Pet>
-export type FindPetsByStatusResult = AxiosResponse<Pet[]>
-export type FindPetsByTagsResult = AxiosResponse<Pet[]>
-export type GetPetByIdResult = AxiosResponse<Pet>
-export type UpdatePetWithFormResult = AxiosResponse<Pet>
-export type DeletePetResult = AxiosResponse<void>
-export type UploadFileResult = AxiosResponse<ApiResponse>
-export type GetInventoryResult = AxiosResponse<GetInventory200>
-export type PlaceOrderResult = AxiosResponse<Order>
-export type GetOrderByIdResult = AxiosResponse<Order>
-export type DeleteOrderResult = AxiosResponse<void>
-export type CreateUserResult = AxiosResponse<User>
-export type CreateUsersWithListInputResult = AxiosResponse<User>
-export type LoginUserResult = AxiosResponse<string>
-export type LogoutUserResult = AxiosResponse<void>
-export type GetUserByNameResult = AxiosResponse<User>
-export type UpdateUserResult = AxiosResponse<void>
-export type DeleteUserResult = AxiosResponse<void>
+export type UpdatePetResult = AxiosResponse<Pet>;
+export type AddPetResult = AxiosResponse<Pet>;
+export type FindPetsByStatusResult = AxiosResponse<Pet[]>;
+export type FindPetsByTagsResult = AxiosResponse<Pet[]>;
+export type GetPetByIdResult = AxiosResponse<Pet>;
+export type UpdatePetWithFormResult = AxiosResponse<Pet>;
+export type DeletePetResult = AxiosResponse<void>;
+export type UploadFileResult = AxiosResponse<ApiResponse>;
+export type GetInventoryResult = AxiosResponse<GetInventory200>;
+export type PlaceOrderResult = AxiosResponse<Order>;
+export type GetOrderByIdResult = AxiosResponse<Order>;
+export type DeleteOrderResult = AxiosResponse<void>;
+export type CreateUserResult = AxiosResponse<User>;
+export type CreateUsersWithListInputResult = AxiosResponse<User>;
+export type LoginUserResult = AxiosResponse<string>;
+export type LogoutUserResult = AxiosResponse<void>;
+export type GetUserByNameResult = AxiosResponse<User>;
+export type UpdateUserResult = AxiosResponse<void>;
+export type DeleteUserResult = AxiosResponse<void>;

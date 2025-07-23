@@ -34,15 +34,15 @@ Http-client API level collisions are possible when using the `operationId` as UU
 
 ### Axios + TypeScript (orval/axios-ts.ts)
 
-`npx orval --input src/http-client/openapi.json --output src/http-client/axios-ts.ts`
+`npx orval --input src/http-client/openapi.json --output src/http-client/axios-client.ts`
 
 ### fetch + TypeScript (orval/fetch-ts.ts)
 
-`npx orval --input src/http-client/openapi.json --output src/http-client/fetch-ts.ts --client fetch`
+`npx orval --input src/http-client/openapi.json --output src/http-client/fetch-client.ts --client fetch`
 
 ### Zod, only schemas (zod-only-schemas.ts)
 
-`npx orval --input src/http-client/openapi.json --output src/http-client/zod-only-schemas.ts --client zod`
+`npx orval --input src/http-client/openapi.json --output src/http-client/zod-schemas.ts --client zod`
 
 ### Axios + runtime-zod
 
